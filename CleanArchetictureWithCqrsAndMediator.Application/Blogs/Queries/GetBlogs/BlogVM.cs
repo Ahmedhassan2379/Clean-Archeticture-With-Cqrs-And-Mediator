@@ -11,8 +11,10 @@ namespace CleanArchetictureWithCqrsAndMediator.Application.Blogs.Queries.GetBlog
     public class BlogVM : IMapForm<Blog>
     {
         public int Id { get; set; }
-        public string? Name { get; set; }
+        public string? BlogName { get; set; }
         public string? Description { get; set; }
         public string? Author { get; set; }
+        public string? UserName { get; set; }
+        public List<Comment>? Comments { get; set;}
     }
 }

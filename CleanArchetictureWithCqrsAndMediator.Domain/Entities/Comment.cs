@@ -6,14 +6,13 @@ using System.Threading.Tasks;
 
 namespace CleanArchetictureWithCqrsAndMediator.Domain.Entities
 {
-    public class Blog
+    public class Comment
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public string Author { get; set; }
+        public virtual Blog Blog { get; set; }
         public virtual User User { get; set; }
-        public virtual List<Comment> Comments { get; set; }
-        
+        public string Content { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public DateTime UpdatedDate { get; set; }
     }
 }

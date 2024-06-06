@@ -31,7 +31,14 @@ namespace CleanArchetictureWithCqrsAndMediator.Infrastrcture.Repository
 
         public async Task<List<Blog>> GetAllBlogs()
         {
-            return await _dbcontext.Blogs.ToListAsync();
+            return await _dbcontext.Blogs.Select(x=>new Blog{
+                Name=x.Name,
+                Author = x.Author,
+                Description=x.Description,
+                Comments=x.Comments.Select(x=>new Comment { Content=x.Content,User=new User {UserName=x.User.UserName} }).ToList(),
+                Id=x.Id,
+                User = new User { UserName=x.User.UserName, Email=x.User.Email}
+            }).ToListAsync();
         }
 
         public async Task<Blog> GetBlogById(int id)

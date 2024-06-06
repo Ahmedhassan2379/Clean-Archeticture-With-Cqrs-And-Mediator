@@ -16,8 +16,10 @@ namespace CleanArchetictureWithCqrsAndMediator.Infrastrcture
     {
         public static IServiceCollection AddInfrastrcutreServices(this IServiceCollection services,IConfiguration configuration)
         {
-            services.AddDbContext<BlogDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("BlogDbContext")));
+            services.AddDbContext<BlogDbContext>(options => options.UseLazyLoadingProxies().UseSqlServer(configuration.GetConnectionString("BlogDbContext")));
             services.AddTransient<IBlogRepository, BlogRepository>();
+            services.AddTransient<IRolesRepository, RoleRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
             return services;
         }
     }

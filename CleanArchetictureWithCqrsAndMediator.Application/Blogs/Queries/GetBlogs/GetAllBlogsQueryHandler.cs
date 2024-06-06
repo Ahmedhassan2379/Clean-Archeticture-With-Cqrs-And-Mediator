@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CleanArchetictureWithCqrsAndMediator.Domain.Entities;
 using CleanArchetictureWithCqrsAndMediator.Domain.Repository;
 using MediatR;
 using System;
@@ -21,14 +22,16 @@ namespace CleanArchetictureWithCqrsAndMediator.Application.Blogs.Queries.GetBlog
         public async Task<List<BlogVM>> Handle(GetAllBlogsQuery request, CancellationToken cancellationToken)
         {
            var blogs =  await _repository.GetAllBlogs();
-            //var result =  blogs.Select(b => new BlogVM
-            // {
-            //     Author = b.Author,
-            //     Description = b.Description,
-            //     Name = b.Name,
-            //     Id = b.Id,
-            // }).ToList();
-            var result = _mapper.Map<List<BlogVM>>(blogs);
+            var result = blogs.Select(b => new BlogVM
+            {
+                Author = b.Author,
+                Description = b.Description,
+                BlogName = b.Name,
+                Id = b.Id,
+                UserName = b.User.UserName,
+                Comments =  b.Comments.Select(x=>new Comment { Content=x.Content}).ToList() ,
+            }).ToList();
+            //var result = _mapper.Map<List<BlogVM>>(blogs);
             return result;
         }
     }

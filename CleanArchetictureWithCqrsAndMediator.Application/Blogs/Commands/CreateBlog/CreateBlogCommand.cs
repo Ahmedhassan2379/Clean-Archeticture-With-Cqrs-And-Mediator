@@ -1,4 +1,5 @@
 ﻿using CleanArchetictureWithCqrsAndMediator.Application.Blogs.Queries.GetBlogs;
+using CleanArchetictureWithCqrsAndMediator.Domain.Entities;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -13,5 +14,6 @@ namespace CleanArchetictureWithCqrsAndMediator.Application.Blogs.Commands.Create
         public string? Name { get; set; }
         public string? Description { get; set; }
         public string? Author { get; set; }
+        public int UserId { get; set; }
     }
 }
