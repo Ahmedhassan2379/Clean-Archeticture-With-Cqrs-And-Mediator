@@ -11,9 +11,9 @@ namespace CleanArchetictureWithCqrsAndMediator.Domain.Repository
     {
         Task<List<Comment>> GetAllComments();
         Task<Comment> GetCommentsById(int id);
-        Task<List<Comment>> GetCommentsByBlog(int id);
-        Task<List<Comment>> GetCommentsByUser(int id);
-        Task<Comment> CreateBlog(Comment comment);
+        Task<List<Comment>> GetCommentsByBlog(string Name);
+        Task<List<Comment>> GetCommentsByUser(string Name);
+        Task<Comment> CreateComment(Comment comment);
         Task<int> UpdateComment(int Id, Comment comment);
         Task<int> DeleteComment(int id);
     }

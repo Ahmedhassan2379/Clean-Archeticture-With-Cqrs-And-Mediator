@@ -18,7 +18,7 @@ namespace CleanArchetictureWithCqrsAndMediator.Infrastrcture.Repository
         {
             _dbcontext = dbContext;
         }
-        public async Task<Comment> CreateBlog(Comment comment)
+        public async Task<Comment> CreateComment(Comment comment)
         {
             await _dbcontext.Comments.AddAsync(comment);
             await _dbcontext.SaveChangesAsync();
@@ -35,9 +35,9 @@ namespace CleanArchetictureWithCqrsAndMediator.Infrastrcture.Repository
             return await _dbcontext.Comments.ToListAsync();
         }
 
-        public async Task<List<Comment>> GetCommentsByBlog(int id)
+        public async Task<List<Comment>> GetCommentsByBlog(string Name)
         {
-            var comment = await _dbcontext.Comments.AsNoTracking().Where(x => x.Blog.Id == id).ToListAsync();
+            var comment = await _dbcontext.Comments.AsNoTracking().Where(x => x.Blog.Name == Name).ToListAsync();
             return comment;
         }
 
@@ -47,19 +47,37 @@ namespace CleanArchetictureWithCqrsAndMediator.Infrastrcture.Repository
             return comment;
         }
 
-        public async Task<List<Comment>> GetCommentsByUser(int id)
+        public async Task<List<Comment>> GetCommentsByUser(string Name)
         {
-            var comment = await _dbcontext.Comments.AsNoTracking().Where(x => x.User.Id == id).ToListAsync();
+            var comment = await _dbcontext.Comments.AsNoTracking().Where(x => x.User.UserName ==Name).ToListAsync();
             return comment;
         }
 
         public async Task<int> UpdateComment(int Id, Comment comment)
         {
-            return await _dbcontext.Comments.Where(x => x.Id == Id)
-                .ExecuteUpdateAsync(setter => setter
-                .SetProperty(m => m.Content, comment.Content)
-                .SetProperty(m => m.CreatedDate, comment.CreatedDate)
-                .SetProperty(m => m.UpdatedDate, comment.UpdatedDate));
+            var user = await _dbcontext.Users.Where(x => x.UserName == comment.User.UserName).ToListAsync();
+            var blog = await _dbcontext.Blogs.Where(x=>x.Name==comment.Blog.Name).ToListAsync();
+            if (user != null && blog !=null)
+            {
+                var result = await _dbcontext.Comments.FirstOrDefaultAsync(x => x.Id == Id);
+                if (result != null)
+                {
+                    result.UpdatedDate = comment.UpdatedDate;
+                    result.CreatedDate = comment.CreatedDate;
+                    result.Content = comment.Content;
+                    result.User.UserName = comment.User.UserName;
+                    result.Blog.Name = comment.Blog.Name;
+                    await _dbcontext.SaveChangesAsync();
+                    return 1;
+                }
+                return default;
+            }
+
+            return default;
+            //.ExecuteUpdateAsync(setter => setter
+            //.SetProperty(m => m.Content, comment.Content)
+            //.SetProperty(m => m.CreatedDate, comment.CreatedDate)
+            //.SetProperty(m => m.UpdatedDate, comment.UpdatedDate));
         }
     }
 }

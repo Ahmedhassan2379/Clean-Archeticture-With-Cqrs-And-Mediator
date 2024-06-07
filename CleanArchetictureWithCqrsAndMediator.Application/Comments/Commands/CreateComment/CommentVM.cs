@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using CleanArchetictureWithCqrsAndMediator.Application.Common.Mappings;
+using CleanArchetictureWithCqrsAndMediator.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,10 +8,11 @@ using System.Threading.Tasks;
 
 namespace CleanArchetictureWithCqrsAndMediator.Application.Comments.Commands.CreateComment
 {
-    public class CreateCommentCommand : IRequest<CommentVM>
+    public class CommentVM : IMapForm<Comment>
     {
-        public string BlogName { get; set; }
-        public string UserNmae { get; set; }
+        public int Id { get; set; }
+        public  string BlogName { get; set; }
+        public  string UserName { get; set; }
         public string Content { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime UpdatedDate { get; set; }

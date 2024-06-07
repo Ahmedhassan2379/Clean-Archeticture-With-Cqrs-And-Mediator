@@ -20,6 +20,7 @@ namespace CleanArchetictureWithCqrsAndMediator.Infrastrcture
             services.AddTransient<IBlogRepository, BlogRepository>();
             services.AddTransient<IRolesRepository, RoleRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<ICommentRepository, CommentRepository>();
             return services;
         }
     }
